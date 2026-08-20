@@ -26,10 +26,9 @@ class GetDailyIntegrals:
 
     def create_payload(self, diff):
         day = self.get_day()
-        if day != 0:
-            payload = {"type": "integral", "day": day, "difficulty": diff}
-        else:
-            payload = {}
+        if day == 0:
+            return {}
+        payload = {"type": "integral", "day": day, "difficulty": diff}
         return payload
 
     def get_integral(self, payload):

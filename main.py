@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+import json
 import requests
 
 
@@ -13,6 +14,8 @@ class GetDailyIntegrals:
 
         self.api_endpoint_a = str(os.getenv("API_ENDPOINT_A"))
         self.api_endpoint_b = str(os.getenv("API_ENDPOINT_B"))
+
+        self.path = "./data/"
 
     def get_day(self):
         r = requests.post(
@@ -39,30 +42,38 @@ class GetDailyIntegrals:
         )
 
         if r.status_code != 200:
-            return "", "", ""
+            return {}
 
         json = r.json()["puzzle"]
-        return {json["difficulty"], json["title"], json["latex"]}
+        return {
+            "day": json["day"],
+            "difficulty": json["difficulty"],
+            "title": json["title"],
+            "latex": json["latex"],
+        }
 
-    def get(self):
+    def get_and_save(self):
         intgs_data = []
 
         for diff in self.diffs:
-            print(f"Getting {diff} integral")
+            print(f"getting {diff} integral")
             p = self.create_payload(diff)
 
             if p == {}:
-                print("ERROR")
+                print("failed to get integral")
                 continue
 
-            intgs_data.append(self.get_integral(p))
+            intg_json = self.get_integral(p)
+            intgs_data.append(intg_json)
 
-        return intgs_data
+        # file_name = self.path + "di" + str(intgs_data[0]["day"]) + ".json"
+        file_name = self.path + "dailyintegral.json"
+        with open(file_name, "w") as f:
+            json.dump({"puzzles": intgs_data}, f)
+        print(f"data saved to {file_name}")
 
 
 load_dotenv()
 
 gti = GetDailyIntegrals()
-intgs_data = gti.get()
-
-print(intgs_data)
+gti.get_and_save()

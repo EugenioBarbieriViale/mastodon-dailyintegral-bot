@@ -7,10 +7,11 @@ import requests
 
 class GetDailyIntegrals:
     def __init__(self):
+        self.diffs = ["BEGINNER", "EASY", "MEDIUM", "HARD"]
+
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
-        self.diffs = ["BEGINNER", "EASY", "MEDIUM", "HARD"]
 
         self.api_endpoint_a = str(os.getenv("API_ENDPOINT_A"))
         self.api_endpoint_b = str(os.getenv("API_ENDPOINT_B"))

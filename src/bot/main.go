@@ -87,10 +87,6 @@ func main() {
 	filename := "./data/dailyintegral.json"
 	puzzles := parse_puzzles(filename)
 
-	// for _, puzzle := range puzzles.Content {
-	// 	fmt.Println("diff:", puzzle.Difficulty)
-	// }
-
 	cfg := get_config_from_env()
 	c := mastodon.NewClient(&cfg)
 

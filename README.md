@@ -1,3 +1,4 @@
 # mastodon-dailyintegral-bot
 Find me at [@DailyIntegralBot](https://mathstodon.xyz/@DailyIntegralBot)
-![image](./screenshot/dailyintegralbot.png)
+## screenshot
+![image](./screenshot/s1.png)

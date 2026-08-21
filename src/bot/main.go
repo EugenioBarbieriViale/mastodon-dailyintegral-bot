@@ -4,10 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
+	"math/rand"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/mattn/go-mastodon"
@@ -44,7 +43,7 @@ func parse_puzzles(filename string) Puzzles {
 func get_config_from_env() mastodon.Config {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("error loading .env file")
+		fmt.Println("error loading .env file")
 	}
 
 	cfg := mastodon.Config{
@@ -73,16 +72,15 @@ func main() {
 	cfg := get_config_from_env()
 	c := mastodon.NewClient(&cfg)
 
-	for i := 0; i < len(puzzles.Content); i++ {
-		_, err := c.PostStatus(context.Background(), &mastodon.Toot{
-			Status: create_toot(puzzles.Content[i]),
-		})
+	idx := rand.Intn(len(puzzles.Content))
 
-		if err != nil {
-			log.Fatal(err)
-		}
+	_, err := c.PostStatus(context.Background(), &mastodon.Toot{
+		Status: create_toot(puzzles.Content[idx]),
+	})
 
-		time.Sleep(5 * time.Second)
-		log.Printf("toot posted! (%d)\n", i+1)
+	if err != nil {
+		fmt.Printf("error while posting toot: %v\n", err)
 	}
+
+	fmt.Printf("toot posted! (%s)\n", puzzles.Content[idx].Difficulty)
 }

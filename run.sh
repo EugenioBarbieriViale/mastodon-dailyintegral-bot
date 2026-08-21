@@ -1,11 +1,13 @@
 #!/bin/bash
 
 set -e
-systemctl status --user mastodon-bot.timer
 
-cd /home/eu/programming/mastodon-dailyintegral-bot/ || exit 1
+path=/home/eu/programming/mastodon-dailyintegral-bot/
+bot_binary=main
+
+cd "$path" || exit 1
 
 /usr/sbin/python3 ./src/scrape/main.py
-/usr/sbin/go run ./src/bot/main.go
 
-exit
+go build -o "$bot_binary" ./src/bot/main.go
+./"$bot_binary"

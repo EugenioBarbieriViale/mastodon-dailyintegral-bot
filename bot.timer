@@ -1,0 +1,7 @@
+# ~/.config/systemd/user/mastodon-bot.timer
+[Timer]
+OnCalendar=*-*-* 16:01:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

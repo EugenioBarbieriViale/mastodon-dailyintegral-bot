@@ -1,0 +1,4 @@
+# ~/.config/systemd/user/mastodon-bot.service
+[Service]
+Type=oneshot
+ExecStart=/home/eu/programming/mastodon-dailyintegral-bot/run.sh
